@@ -7,6 +7,7 @@ LIBS   = -lglfw -lGL
 
 # ==== PATHS ==== #
 SRC  = src/*.cpp
+SRC += src/ramble/*.cpp
 SRC += src/glad/glad.c
 SRC += src/stb_image/stb_image.c
 

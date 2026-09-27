@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 #include "stb_image/stb_image.h"
+#include "ramble/ramble.h"
 #include "utils.h"
 
 void on_window_resized(GLFWwindow *window, int width, int height);
@@ -43,6 +44,12 @@ int main(void)
 	 */
 	stbi_set_flip_vertically_on_load(true);
 
+	/* DEBUG STUFF */
+	Shader *shader = new Shader("shader", DEFAULT_VERT, DEFAULT_FRAG);
+	shader->use();
+
+	Rect *rect = new Rect(vec2(0.01f, 0.01f), vec2(0.5f, 0.5f));
+
 	/* Main Loop */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -51,16 +58,22 @@ int main(void)
 
 		/* RENDERING START */
 
+		rect->render();
+
 		/* RENDERING END */
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
+	/* CLEANUP */
+	delete shader;
+
 	return 0;
 }
 
 void on_window_resized(GLFWwindow *window, int width, int height)
 {
+	/* Adjust viewport size */
 	glViewport(0, 0, width, height);
 }

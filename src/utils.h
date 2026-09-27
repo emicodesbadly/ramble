@@ -48,4 +48,13 @@
 
 #define ANSI_RESET "\e[0m"
 
+#define DEFAULT_VERT "#version 330 core\nlayout (location = 0) in vec2 pos;\nvoid main()\n{\n    gl_Position = vec4(pos.x, pos.y, 1.0f, 1.0f);\n}"
+#define DEFAULT_FRAG "#version 330 core\nout vec4 FragColor;\nvoid main()\n{\n    FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n}"
+
+#define screen_to_gl_x(x) 2.0f * (x) - 1.0f
+#define screen_to_gl_y(y) 1.0f - 2.0f * (y)
+
+#define gl_to_screen_x(x) ((x) + 1.0f) / 2.0f
+#define gl_to_screen_y(y) (1.0f - (y)) / 2.0f
+
 #endif
