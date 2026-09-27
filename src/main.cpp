@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 #include "stb_image/stb_image.h"
+#include "utils.h"
 
 void on_window_resized(GLFWwindow *window, int width, int height);
 
@@ -18,9 +19,9 @@ int main(void)
 
 	if (window == NULL)
 	{
-		printf("ERROR: Failed to create GLFW window!\n");
+		printf("%sERROR:%s Failed to create GLFW window!\n", ANSI_BOLD_RED, ANSI_RESET);
 		glfwTerminate();
-		return -1;
+		return 1;
 	}
 
 	glfwMakeContextCurrent(window);
@@ -29,14 +30,14 @@ int main(void)
 	/* GLAD: load OpenGL function pointers */
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		printf("ERROR: Failed to load OpenGL function pointers!\n");
-		return -1;
+		printf("%sERROR:%s Failed to load OpenGL function pointers!\n", ANSI_BOLD_RED, ANSI_RESET);
+		return 1;
 	}
 
 	/*
-	 * OpenGL expects 0.0 on the y axis to be on the bottom side of an image,
-	 * while images usually have 0.0 on the top side. This results in images
-	 * being displayed upside-down.
+	 * OpenGL expects (0,0) to be at the bottom left corner of an image,
+	 * while images usually have (0,0) at the top left. This results in
+	 * images being displayed upside-down.
 	 * 
 	 * To correct this, we vertically flip images on load.
 	 */
@@ -47,6 +48,10 @@ int main(void)
 	{
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		/* RENDERING START */
+
+		/* RENDERING END */
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
