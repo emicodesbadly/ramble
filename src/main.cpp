@@ -52,7 +52,7 @@ int main(void)
 
 	int w, h, nch;
 	unsigned char *data = stbi_load("resources/textures/missing.png", &w, &h, &nch, 0);
-	Texture *texture = new Texture("missing", data, w, h);
+	Texture *texture = new Texture("missing", data, w, h, nch);
 
 	TexturedRect *tr = new TexturedRect(vec2(0,0), shader, texture);
 

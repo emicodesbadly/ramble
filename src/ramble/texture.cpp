@@ -3,7 +3,7 @@
 #include "ramble.h"
 #include "../utils.h"
 
-Texture::Texture(const char *name, unsigned char *data, int width, int height)
+Texture::Texture(const char *name, unsigned char *data, int width, int height, int channel_count)
     : name(name), width(width), height(height)
 {
     /* Generate & bind texture */
@@ -19,8 +19,20 @@ Texture::Texture(const char *name, unsigned char *data, int width, int height)
     /* Upload texture data */
     if (data)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
+        if (channel_count == 4)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        } 
+        else if (channel_count == 3)
+        {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else
+        {
+            printf("%sWARNING:%s Texture data has incorrect number of channels! Textures must be in RGBA or RGB format.\n", ANSI_BOLD_YELLOW, ANSI_RESET);
+        }
     }
     else
     {

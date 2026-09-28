@@ -29,7 +29,7 @@ class Texture final
         const char *name;
         const int width, height;
 
-        Texture(const char *name, unsigned char *data, int width, int height);
+        Texture(const char *name, unsigned char *data, int width, int height, int channel_count);
         ~Texture();
 
         void use(GLenum unit);
