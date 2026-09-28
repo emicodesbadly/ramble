@@ -5,6 +5,7 @@
 #include "ramble/ramble.h"
 #include "utils.h"
 
+
 void on_window_resized(GLFWwindow *window, int width, int height);
 
 int main(void)
@@ -44,27 +45,30 @@ int main(void)
 	 */
 	stbi_set_flip_vertically_on_load(true);
 
+	Canvas::init(960, 540);
+
 	/* DEBUG STUFF */
 	Shader *shader = new Shader("shader", DEFAULT_TEXTURED_VERT, DEFAULT_TEXTURED_FRAG);
-	shader->use();
 
 	int w, h, nch;
 	unsigned char *data = stbi_load("resources/textures/missing.png", &w, &h, &nch, 0);
-
 	Texture *texture = new Texture("missing", data, w, h);
-	texture->use(GL_TEXTURE0);
 
 	TexturedRect *tr = new TexturedRect(vec2(0,0), shader, texture);
 
 	/* Main Loop */
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		/* RENDERING START */
 
+		Canvas::instance()->bind_and_clear();
+
 		tr->render();
+
+		Canvas::instance()->render(window);
 
 		/* RENDERING END */
 
@@ -76,6 +80,8 @@ int main(void)
 	delete texture;
 	delete shader;
 
+	Canvas::destroy();
+
 	return 0;
 }
 
@@ -83,4 +89,7 @@ void on_window_resized(GLFWwindow *window, int width, int height)
 {
 	/* Adjust viewport size */
 	glViewport(0, 0, width, height);
+
+	/* Adjust canvas to maintain aspect ratio */
+	Canvas::instance()->on_window_resized(width, height);
 }

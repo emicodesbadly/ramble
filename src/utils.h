@@ -60,4 +60,6 @@
 #define gl_to_screen_x(x) ((x) + 1.0f) / 2.0f
 #define gl_to_screen_y(y) (1.0f - (y)) / 2.0f
 
+#define remap(min, max, new_min, new_max, num) (new_min) + (((new_max) - (new_min)) / ((max) - (min))) * ((num) - (min))
+
 #endif
