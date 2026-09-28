@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "../glad/glad.h"
 #include "ramble.h"
 #include "../utils.h"
 
@@ -18,7 +17,7 @@ Shader::Shader(const char *name, const char *vert_source, const char *frag_sourc
     if (!success)
     {
         glGetShaderInfoLog(vert, 512, 0, log);
-        printf("%sERROR:%s Shader compilation failed! (vertex)\n%s\n", ANSI_BOLD_RED, ANSI_RESET, log);
+        printf("%sERROR:%s Shader compilation failed! (%s, vertex)\n%s\n", ANSI_BOLD_RED, ANSI_RESET, name, log);
 
         //valid = false;
     }
@@ -33,7 +32,7 @@ Shader::Shader(const char *name, const char *vert_source, const char *frag_sourc
     if (!success)
     {
         glGetShaderInfoLog(frag, 512, 0, log);
-        printf("%sERROR:%s Shader compilation failed! (fragment)\n%s\n", ANSI_BOLD_RED, ANSI_RESET, log);
+        printf("%sERROR:%s Shader compilation failed! (%s, fragment)\n%s\n", ANSI_BOLD_RED, ANSI_RESET, name, log);
 
         //valid = false;
     }
@@ -49,7 +48,7 @@ Shader::Shader(const char *name, const char *vert_source, const char *frag_sourc
     if (!success)
     {
         glGetProgramInfoLog(handle, 512, 0, log);
-        printf("%sERROR:%s Shader linking failed!\n%s\n", ANSI_BOLD_RED, ANSI_RESET, log);
+        printf("%sERROR:%s Shader linking failed! (%s)\n%s\n", ANSI_BOLD_RED, ANSI_RESET, name, log);
 
         //valid = false;
     }

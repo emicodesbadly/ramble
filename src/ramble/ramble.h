@@ -1,6 +1,7 @@
 #ifndef __H_RAMBLE_
 #define __H_RAMBLE_
 
+#include "../glad/glad.h"
 #include <glm/glm.hpp>
 
 using namespace glm;
@@ -14,6 +15,21 @@ class Shader final
         ~Shader();
 
         void use();
+
+    private:
+        unsigned int handle;
+};
+
+class Texture final
+{
+    public:
+        const char *name;
+        const int width, height;
+
+        Texture(const char *name, unsigned char *data, int width, int height);
+        ~Texture();
+
+        void use(GLenum unit);
 
     private:
         unsigned int handle;

@@ -1,4 +1,3 @@
-#include "../glad/glad.h"
 #include "ramble.h"
 #include "../utils.h"
 
