@@ -44,6 +44,15 @@ class Rect
         vec2 size;
 
         virtual void render();
+};
+
+class TexturedRect : Rect
+{
+    public:
+        TexturedRect(vec2 position, Shader *shader, Texture *texture);
+        ~TexturedRect();
+
+        void render() override;
 
     private:
         unsigned int VBO;

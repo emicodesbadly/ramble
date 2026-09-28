@@ -45,10 +45,16 @@ int main(void)
 	stbi_set_flip_vertically_on_load(true);
 
 	/* DEBUG STUFF */
-	Shader *shader = new Shader("shader", DEFAULT_VERT, DEFAULT_FRAG);
+	Shader *shader = new Shader("shader", DEFAULT_TEXTURED_VERT, DEFAULT_TEXTURED_FRAG);
 	shader->use();
 
-	Rect *rect = new Rect(vec2(0.01f, 0.01f), vec2(0.5f, 0.5f));
+	int w, h, nch;
+	unsigned char *data = stbi_load("resources/textures/missing.png", &w, &h, &nch, 0);
+
+	Texture *texture = new Texture("missing", data, w, h);
+	texture->use(GL_TEXTURE0);
+
+	TexturedRect *tr = new TexturedRect(vec2(0,0), shader, texture);
 
 	/* Main Loop */
 	while (!glfwWindowShouldClose(window))
@@ -58,7 +64,7 @@ int main(void)
 
 		/* RENDERING START */
 
-		rect->render();
+		tr->render();
 
 		/* RENDERING END */
 
@@ -67,6 +73,7 @@ int main(void)
 	}
 
 	/* CLEANUP */
+	delete texture;
 	delete shader;
 
 	return 0;

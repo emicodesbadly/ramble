@@ -48,8 +48,11 @@
 
 #define ANSI_RESET "\e[0m"
 
-#define DEFAULT_VERT "#version 330 core\nlayout (location = 0) in vec2 pos;\nvoid main()\n{\n    gl_Position = vec4(pos.x, pos.y, 1.0f, 1.0f);\n}"
+#define DEFAULT_VERT "#version 330 core\nlayout (location = 0) in vec2 pos;\nvoid main()\n{\n    gl_Position = vec4(pos.x, pos.y, 0.0f, 1.0f);\n}"
 #define DEFAULT_FRAG "#version 330 core\nout vec4 FragColor;\nvoid main()\n{\n    FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n}"
+
+#define DEFAULT_TEXTURED_VERT "#version 330 core\nlayout (location = 0) in vec2 pos;\nlayout (location = 1) in vec2 uv;\nout vec2 f_uv;\nvoid main()\n{\n    gl_Position = vec4(pos.x, pos.y, 0.0f, 1.0);\n    f_uv = uv;\n}"
+#define DEFAULT_TEXTURED_FRAG "#version 330 core\nin vec2 f_uv;\nuniform sampler2D main_tex;\nout vec4 FragColor;\nvoid main()\n{\n    FragColor = texture(main_tex, f_uv);\n}"
 
 #define screen_to_gl_x(x) 2.0f * (x) - 1.0f
 #define screen_to_gl_y(y) 1.0f - 2.0f * (y)
