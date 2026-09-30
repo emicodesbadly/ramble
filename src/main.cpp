@@ -10,18 +10,23 @@ void on_window_resized(GLFWwindow *window, int width, int height);
 
 int main(void)
 {
+	printf("%s==== GAME START ====%s\n", ANSI_BOLD_GREEN, ANSI_RESET);
+
 	/* GLFW: initialize & configure */
+	printf("Initializing GLFW...\n");
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	/* GLFW: create window */
-	GLFWwindow *window = glfwCreateWindow(960, 540, "Ramble Game", NULL, NULL);
+	printf("Creating window...\n");
 
+	GLFWwindow *window = glfwCreateWindow(960, 540, "Ramble Game", NULL, NULL);
 	if (window == NULL)
 	{
-		printf("%sERROR:%s Failed to create GLFW window!\n", ANSI_BOLD_RED, ANSI_RESET);
+		printf("%sERROR:%s Failed to create window!\n", ANSI_BOLD_RED, ANSI_RESET);
 		glfwTerminate();
 		return 1;
 	}
@@ -30,11 +35,15 @@ int main(void)
 	glfwSetFramebufferSizeCallback(window, on_window_resized);
 
 	/* GLAD: load OpenGL function pointers */
+	printf("Loading OpenGL function pointers...\n");
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		printf("%sERROR:%s Failed to load OpenGL function pointers!\n", ANSI_BOLD_RED, ANSI_RESET);
 		return 1;
 	}
+
+	printf("Configuring stb_image...\n");
 
 	/*
 	 * OpenGL expects (0,0) to be at the bottom left corner of an image,
@@ -56,7 +65,10 @@ int main(void)
 
 	TexturedRect *tr = new TexturedRect(vec2(0,0), shader, texture);
 
+	printf("%sInitialization successful! Entering main loop...%s\n", ANSI_GREEN, ANSI_RESET);
+
 	/* Main Loop */
+	printf("\n%s==== MAIN LOOP ====%s\n", ANSI_BOLD_GREEN, ANSI_RESET);
 	while (!glfwWindowShouldClose(window))
 	{
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -76,12 +88,20 @@ int main(void)
 		glfwPollEvents();
 	}
 
+	printf("%sMain loop has terminated! Fetching broom...%s\n", ANSI_GREEN, ANSI_RESET);
+
 	/* CLEANUP */
+	printf("\n%s==== CLEANUP ====%s\n", ANSI_BOLD_GREEN, ANSI_RESET);
+
 	delete texture;
 	delete shader;
 
 	Canvas::destroy();
 
+	printf("Terminating GLFW...\n");
+	glfwTerminate();
+
+	printf("%sClosing game. Thanks for playing!%s\n", ANSI_GREEN, ANSI_RESET);
 	return 0;
 }
 

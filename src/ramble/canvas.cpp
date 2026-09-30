@@ -10,6 +10,8 @@ Canvas *Canvas::inst = nullptr;
 Canvas::Canvas(unsigned int width, unsigned int height)
     : width(width), height(height), shader(new Shader("canvas", DEFAULT_TEXTURED_VERT, DEFAULT_TEXTURED_FRAG))
 {
+    printf("Initializing canvas...\n");
+
     /* Create & bind framebuffer */
     glGenFramebuffers(1, &FBO);
     glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -33,7 +35,7 @@ Canvas::Canvas(unsigned int width, unsigned int height)
     /* Check for framebuffer errors */
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
-        printf("%sERROR:%s Screen framebuffer is incomplete!\n", ANSI_BOLD_RED, ANSI_RESET);
+        printf("%sERROR:%s Canvas framebuffer is incomplete!\n", ANSI_BOLD_RED, ANSI_RESET);
     }
 
     /* Unbind framebuffer */
@@ -62,19 +64,7 @@ Canvas::Canvas(unsigned int width, unsigned int height)
     glBindVertexArray(0);
 }
 
-void Canvas::init(unsigned int width, unsigned int height)
-{
-    if (inst != nullptr)
-    {
-        printf("%sWARNING:%s Canvas has already been initialized!\n", ANSI_BOLD_YELLOW, ANSI_RESET);
-    }
-    else
-    {
-        inst = new Canvas(width, height);
-    }
-}
-
-void Canvas::destroy()
+Canvas::~Canvas()
 {
     glDeleteVertexArrays(1, &inst->VAO);
     glDeleteBuffers(1, &inst->VBO);
@@ -85,7 +75,26 @@ void Canvas::destroy()
 
     delete inst->shader;
 
-    printf("%sCanvas has been destroyed!%s\n", ANSI_PURPLE, ANSI_RESET);
+    printf("Canvas has been destroyed!\n");
+}
+
+void Canvas::init(unsigned int width, unsigned int height)
+{
+    if (inst != nullptr)
+    {
+        printf("Replacing canvas...\n");
+        delete inst;
+        inst = new Canvas(width, height);
+    }
+    else
+    {
+        inst = new Canvas(width, height);
+    }
+}
+
+void Canvas::destroy()
+{
+    delete inst;
 }
 
 Canvas *Canvas::instance()

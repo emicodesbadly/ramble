@@ -80,6 +80,7 @@ class Canvas final
         const Shader *shader;
 
         Canvas(unsigned int width, unsigned int height);
+        ~Canvas();
 };
 
 class Rect
